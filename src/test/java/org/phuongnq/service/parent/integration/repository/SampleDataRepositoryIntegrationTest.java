@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -27,10 +30,11 @@ public class SampleDataRepositoryIntegrationTest {
 
     @Container
     @ServiceConnection
-    public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.1")
+    public static GenericContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.1")
             .withDatabaseName("integration-tests-db")
             .withUsername("sa")
-            .withPassword("sa");
+            .withPassword("sa")
+            .withReuse(true);
 
     @Autowired
     SampleDataRepository repository;
