@@ -5,3 +5,44 @@ spring:
     url: jdbc:postgresql://localhost:5432/sample-db
     username: postgres
     password: postgres
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        #generate_statistics: true
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 100
+        show_sql: true
+      cache:
+        use_second_level_cache: true
+        use_query_cache: true
+        region:
+          factory_class: jcache
+    hibernate:
+      javax:
+        cache:
+          provider: org.ehcache.jsr107.EhcacheCachingProvider
+
+  task:
+    execution:
+      pool:
+        core-size: 6
+        max-size: 50
+        queue-capacity: 100
+  docker:
+    compose:
+      start:
+        command: start
+      file: docker-compose.yml
+      readiness:
+        tcp:
+          connect-timeout: 60s
+          read-timeout: 30s
+
+#logging:
+#  level:
+#    org.springframework.orm.jpa: DEBUG
+#    org.springframework.transaction: DEBUG
+#    org.hibernate.SQL: debug

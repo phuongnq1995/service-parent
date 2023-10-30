@@ -8,6 +8,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.phuongnq.service.parent.entity.SampleData;
 import org.phuongnq.service.parent.repository.SampleDataRepository;
 import org.phuongnq.service.parent.service.SampleService;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +29,7 @@ public class SampleServiceTest {
 
     @Test
     public void givenCountMethodMocked_WhenCountInvoked_ThenMockValueReturned() {
-        when(repository.findAll()).thenReturn(List.of(
+        when(repository.findAll(Pageable.ofSize(2))).thenReturn(new PageImpl<>(List.of(
                 SampleData.builder()
                         .id(UUID.fromString("e7b8ac10-e4b0-466d-b9a8-f48a23e22b92"))
                         .name("Sample1")
@@ -36,12 +38,12 @@ public class SampleServiceTest {
                         .id(UUID.fromString("8bde912f-e912-4e94-b95c-7cc5d5847ece"))
                         .name("Sample2")
                         .build()
-        ));
+        )));
 
-        var sampleDataList = service.getAll();
+        var sampleDataList = service.getAll(Pageable.ofSize(2));
 
-        assertThat(sampleDataList.size()).isEqualTo(2);
+        assertThat(sampleDataList.getContent().size()).isEqualTo(2);
 
-        verify(repository).findAll();
+        verify(repository).findAll(Pageable.ofSize(2));
     }
 }

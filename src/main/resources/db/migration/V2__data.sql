@@ -98,5 +98,4 @@ VALUES
 ('Lubowitz Courts'),
 ('Lauriane Summit'),
 ('Powlowski Ranch'),
-('Mertz Land'),
 ('Abbott Spur');
